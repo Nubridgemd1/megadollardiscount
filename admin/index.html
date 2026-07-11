@@ -113,7 +113,23 @@
       <div class="sub">Take a photo with your camera or pick one from your device — set the price and an optional discount.</div>
       <div class="row">
         <div><label>Product name</label><input type="text" id="a-name" placeholder="e.g. Scented Candle Set"></div>
-        <div><label>Category</label><select id="a-cat"><option value="household">Household &amp; Laundry</option><option value="toys">Children’s Toys</option><option value="party">Party Items</option><option value="electronics">Electronics Accessories</option></select></div>
+        <div><label>Category</label><select id="a-cat">
+          <option value="household">Household &amp; Laundry</option>
+          <option value="cleaning">Cleaning Supplies</option>
+          <option value="kitchen">Kitchen &amp; Dining</option>
+          <option value="electronics">Electronics Accessories</option>
+          <option value="toys">Children’s Toys</option>
+          <option value="baby">Baby &amp; Kids</option>
+          <option value="party">Party Items</option>
+          <option value="beauty">Health &amp; Beauty</option>
+          <option value="grocery">Snacks &amp; Groceries</option>
+          <option value="office">Stationery &amp; Office</option>
+          <option value="pet">Pet Supplies</option>
+          <option value="decor">Home Décor</option>
+          <option value="tools">Tools &amp; Hardware</option>
+          <option value="apparel">Apparel &amp; Accessories</option>
+          <option value="seasonal">Seasonal &amp; Holiday</option>
+        </select></div>
       </div>
       <div class="row">
         <div><label>Price ($)</label><input type="number" id="a-price" min="0" step="0.01" placeholder="9.99"></div>
@@ -144,8 +160,8 @@
 
 <script>
 var PKEY='mdd_products_v2', BKEY='mdd_banner_v2', PIN='2468';
-var CATS={household:'Household & Laundry',toys:'Children’s Toys',party:'Party Items',electronics:'Electronics Accessories'};
-var CAT_EMOJI={household:'🧺',toys:'🧸',party:'🎉',electronics:'🔌'};
+var CATS={household:'Household & Laundry',cleaning:'Cleaning Supplies',kitchen:'Kitchen & Dining',electronics:'Electronics Accessories',toys:'Children’s Toys',baby:'Baby & Kids',party:'Party Items',beauty:'Health & Beauty',grocery:'Snacks & Groceries',office:'Stationery & Office',pet:'Pet Supplies',decor:'Home Décor',tools:'Tools & Hardware',apparel:'Apparel & Accessories',seasonal:'Seasonal & Holiday'};
+var CAT_EMOJI={household:'🧺',cleaning:'🧼',kitchen:'🍽️',electronics:'🔌',toys:'🧸',baby:'🍼',party:'🎉',beauty:'💄',grocery:'🍬',office:'✏️',pet:'🐾',decor:'🖼️',tools:'🔧',apparel:'👕',seasonal:'🎄'};
 var SEED=[
   {id:1,name:'3-in-1 Laundry Detergent Pods (42 ct)',cat:'household',price:8.99,disc:25,emoji:'🧴'},
   {id:2,name:'Microfiber Cleaning Cloths (12 pack)',cat:'household',price:5.49,disc:0,emoji:'🧽'},
