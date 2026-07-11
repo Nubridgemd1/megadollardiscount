@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MegaDollar Discount — Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Mulish:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{--green:#127a3e;--green-d:#0d5c2e;--green-l:#e7f4ec;--yellow:#ffd21f;--yellow-d:#f2b705;--yellow-soft:#fff7d6;
+    --ink:#15251b;--ink2:#4a5b50;--muted:#8a988e;--line:#e6ebe6;--bg:#f4f7f4;--card:#fff;--red:#c0392b;
+    --serif:'Fraunces',Georgia,serif;--sans:'Mulish',system-ui,Arial,sans-serif}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:var(--sans);background:var(--bg);color:var(--ink);line-height:1.5}
+  .wrap{max-width:1000px;margin:0 auto;padding:0 18px}
+  input,select,textarea,button{font-family:var(--sans)}
+  header{background:var(--green);color:#fff;padding:14px 0;position:sticky;top:0;z-index:20}
+  header .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+  .logo{font-family:var(--serif);font-size:20px;font-weight:700;display:flex;align-items:center;gap:9px}
+  .logo .mark{width:32px;height:32px;border-radius:9px;background:var(--yellow);color:var(--green-d);display:flex;align-items:center;justify-content:center;font-weight:800}
+  .logo em{color:var(--yellow);font-style:normal}
+  header a{color:rgba(255,255,255,.9);font-size:13px;font-weight:700;text-decoration:none;border:1.5px solid rgba(255,255,255,.35);border-radius:30px;padding:7px 15px}
+  header a:hover{background:rgba(255,255,255,.12)}
+
+  /* login gate */
+  #gate{position:fixed;inset:0;background:linear-gradient(120deg,var(--green),var(--green-d));display:flex;align-items:center;justify-content:center;padding:20px;z-index:50}
+  #gate .box{background:#fff;border-radius:18px;padding:32px;max-width:360px;width:100%;text-align:center}
+  #gate .mark{width:56px;height:56px;border-radius:14px;background:var(--green);color:var(--yellow);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:30px;margin:0 auto 14px}
+  #gate h1{font-family:var(--serif);font-size:22px;font-weight:700;color:var(--green-d)}
+  #gate p{font-size:13px;color:var(--muted);margin:4px 0 16px}
+  #gate input{width:100%;text-align:center;letter-spacing:8px;font-size:22px;font-weight:800;padding:12px;border:2px solid var(--line);border-radius:11px;color:var(--green-d)}
+  #gate button{width:100%;margin-top:12px;background:var(--green);color:#fff;border:none;border-radius:11px;padding:13px;font-size:15px;font-weight:800;cursor:pointer}
+  #gate .err{color:var(--red);font-size:13px;margin-top:8px;min-height:18px}
+
+  .wrap{padding-top:20px;padding-bottom:60px}
+  .panel{background:var(--card);border:1px solid var(--line);border-radius:15px;padding:20px;margin-bottom:18px}
+  .panel h2{font-family:var(--serif);font-size:20px;font-weight:600;color:var(--green-d);margin-bottom:4px;display:flex;align-items:center;gap:9px}
+  .panel .sub{font-size:13px;color:var(--muted);margin-bottom:14px}
+  label{display:block;font-size:12px;font-weight:700;color:var(--ink2);margin:10px 0 4px}
+  input[type=text],input[type=number],select,textarea{width:100%;padding:11px 12px;border:1.5px solid var(--line);border-radius:9px;font-size:14.5px;background:var(--bg)}
+  input:focus,select:focus,textarea:focus{outline:none;border-color:var(--green);background:#fff}
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  @media(max-width:560px){.row{grid-template-columns:1fr}}
+  .btn{background:var(--green);color:#fff;border:none;border-radius:10px;padding:12px 20px;font-size:14px;font-weight:800;cursor:pointer}
+  .btn:hover{background:var(--green-d)}
+  .btn.y{background:var(--yellow);color:var(--green-d)}
+  .btn.line{background:#fff;border:1.5px solid var(--green);color:var(--green)}
+  .btn.red{background:#fdecec;color:var(--red)}
+  .btn.sm{padding:7px 12px;font-size:12.5px;border-radius:8px}
+  .note{font-size:13px;margin-top:10px}.note.ok{color:var(--green)}.note.err{color:var(--red)}
+
+  /* photo picker */
+  .photobox{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:6px}
+  .preview{width:82px;height:82px;border-radius:12px;background:linear-gradient(135deg,var(--green-l),var(--yellow-soft));display:flex;align-items:center;justify-content:center;font-size:38px;overflow:hidden;flex-shrink:0;border:1px solid var(--line)}
+  .preview img{width:100%;height:100%;object-fit:cover}
+  .pick{display:flex;gap:8px;flex-wrap:wrap}
+  .pick label{background:var(--green-l);color:var(--green-d);border:1px dashed var(--green);border-radius:9px;padding:9px 14px;font-size:13px;font-weight:700;cursor:pointer;margin:0}
+  .pick input[type=file]{display:none}
+
+  /* banner preview */
+  .bprev{background:var(--yellow);color:var(--green-d);text-align:center;font-weight:800;font-size:14px;padding:10px;border-radius:9px;margin-top:10px}
+  .bprev b{background:var(--green-d);color:var(--yellow);border-radius:20px;padding:2px 10px;margin-right:8px;font-size:11px;text-transform:uppercase}
+  .switch{display:inline-flex;align-items:center;gap:8px;font-weight:700;font-size:14px;cursor:pointer}
+  .switch input{width:auto}
+
+  /* product list */
+  .plist{display:flex;flex-direction:column;gap:10px;margin-top:4px}
+  .prow{display:flex;gap:12px;align-items:center;border:1px solid var(--line);border-radius:12px;padding:10px;flex-wrap:wrap}
+  .prow .thumb{width:56px;height:56px;border-radius:10px;background:linear-gradient(135deg,var(--green-l),var(--yellow-soft));display:flex;align-items:center;justify-content:center;font-size:28px;overflow:hidden;flex-shrink:0}
+  .prow .thumb img{width:100%;height:100%;object-fit:cover}
+  .prow .info{flex:1;min-width:140px}
+  .prow .info .n{font-weight:700;font-size:14.5px}
+  .prow .info .c{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;font-weight:700}
+  .prow .edit{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+  .prow .edit .f{display:flex;flex-direction:column}
+  .prow .edit .f span{font-size:10px;color:var(--muted);font-weight:700}
+  .prow .edit input{width:82px;padding:8px;font-size:13px}
+  .prow .repl{display:flex;flex-direction:column}
+  .prow .repl label{background:var(--green-l);color:var(--green-d);border-radius:8px;padding:7px 10px;font-size:11.5px;font-weight:700;cursor:pointer;margin:0;white-space:nowrap}
+  .prow .repl input{display:none}
+</style>
+</head>
+<body>
+  <div id="gate"><div class="box">
+    <div class="mark">$</div><h1>Admin sign in</h1><p>Enter your admin PIN</p>
+    <input id="pin" type="password" inputmode="numeric" maxlength="8" placeholder="••••" onkeydown="if(event.key==='Enter')unlock()">
+    <button onclick="unlock()">Unlock</button>
+    <div class="err" id="gerr"></div>
+  </div></div>
+
+  <header><div class="wrap">
+    <div class="logo"><span class="mark">$</span>MegaDollar<em>Admin</em></div>
+    <a href="../" target="_blank">View store ↗</a>
+  </div></header>
+
+  <div class="wrap" id="app" style="display:none">
+    <!-- BANNER -->
+    <div class="panel">
+      <h2>🎯 Discount banner</h2>
+      <div class="sub">Show a promotional strip across the top of the store — turn it on only when there's a deal.</div>
+      <label class="switch"><input type="checkbox" id="b-on" onchange="drawBannerPrev()"> Show banner on the store</label>
+      <label>Banner message</label>
+      <input type="text" id="b-text" placeholder="e.g. Weekend Sale — up to 40% off electronics!" oninput="drawBannerPrev()">
+      <div class="bprev" id="b-prev"><b>Deal</b><span id="b-prev-t">Your banner preview</span></div>
+      <button class="btn" style="margin-top:14px" onclick="saveBanner()">Save banner</button>
+      <span class="note" id="b-note"></span>
+    </div>
+
+    <!-- ADD PRODUCT -->
+    <div class="panel">
+      <h2>➕ Add a product</h2>
+      <div class="sub">Take a photo with your camera or pick one from your device — set the price and an optional discount.</div>
+      <div class="row">
+        <div><label>Product name</label><input type="text" id="a-name" placeholder="e.g. Scented Candle Set"></div>
+        <div><label>Category</label><select id="a-cat"><option value="household">Household &amp; Laundry</option><option value="toys">Children’s Toys</option><option value="party">Party Items</option><option value="electronics">Electronics Accessories</option></select></div>
+      </div>
+      <div class="row">
+        <div><label>Price ($)</label><input type="number" id="a-price" min="0" step="0.01" placeholder="9.99"></div>
+        <div><label>Discount (%)</label><input type="number" id="a-disc" min="0" max="90" step="1" placeholder="0"></div>
+      </div>
+      <label>Photo</label>
+      <div class="photobox">
+        <div class="preview" id="a-prev">📷</div>
+        <div class="pick">
+          <label>📸 Camera<input type="file" accept="image/*" capture="environment" onchange="pickPhoto(this,'a')"></label>
+          <label>🖼️ From device<input type="file" accept="image/*" onchange="pickPhoto(this,'a')"></label>
+        </div>
+      </div>
+      <button class="btn y" style="margin-top:16px" onclick="addProduct()">Add product</button>
+      <span class="note" id="a-note"></span>
+    </div>
+
+    <!-- MANAGE -->
+    <div class="panel">
+      <h2>🛍️ Products <span style="font-size:13px;color:var(--muted);font-weight:600" id="pcount"></span></h2>
+      <div class="sub">Update price &amp; discount inline, replace a photo, or remove a product. Changes are live on the store instantly.</div>
+      <div class="plist" id="plist"></div>
+      <div style="margin-top:14px;display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn line sm" onclick="if(confirm('Reset the catalogue to the default demo products?')){localStorage.removeItem(PKEY);PRODUCTS=SEED.slice();persist();render();}">Reset to defaults</button>
+      </div>
+    </div>
+  </div>
+
+<script>
+var PKEY='mdd_products_v2', BKEY='mdd_banner_v2', PIN='2468';
+var CATS={household:'Household & Laundry',toys:'Children’s Toys',party:'Party Items',electronics:'Electronics Accessories'};
+var CAT_EMOJI={household:'🧺',toys:'🧸',party:'🎉',electronics:'🔌'};
+var SEED=[
+  {id:1,name:'3-in-1 Laundry Detergent Pods (42 ct)',cat:'household',price:8.99,disc:25,emoji:'🧴'},
+  {id:2,name:'Microfiber Cleaning Cloths (12 pack)',cat:'household',price:5.49,disc:0,emoji:'🧽'},
+  {id:3,name:'Scented Fabric Softener Sheets',cat:'household',price:3.99,disc:15,emoji:'🧺'},
+  {id:4,name:'Stackable Storage Bins (Set of 4)',cat:'household',price:14.99,disc:20,emoji:'🗄️'},
+  {id:5,name:'Wooden Building Blocks (100 pcs)',cat:'toys',price:12.99,disc:30,emoji:'🧱'},
+  {id:6,name:'Plush Teddy Bear — 14"',cat:'toys',price:9.99,disc:0,emoji:'🧸'},
+  {id:7,name:'Kids Art & Crafts Kit',cat:'toys',price:7.49,disc:10,emoji:'🎨'},
+  {id:8,name:'Remote Control Race Car',cat:'toys',price:16.99,disc:35,emoji:'🏎️'},
+  {id:9,name:'Party Balloons + Pump (50 pack)',cat:'party',price:6.99,disc:0,emoji:'🎈'},
+  {id:10,name:'Birthday Tableware Set (serves 16)',cat:'party',price:11.49,disc:20,emoji:'🎂'},
+  {id:11,name:'LED String Lights — 33 ft',cat:'party',price:8.49,disc:15,emoji:'✨'},
+  {id:12,name:'Fast-Charge USB-C Cable (2-pack)',cat:'electronics',price:7.99,disc:25,emoji:'🔌'},
+  {id:13,name:'Wireless Bluetooth Earbuds',cat:'electronics',price:19.99,disc:40,emoji:'🎧'},
+  {id:14,name:'20,000 mAh Power Bank',cat:'electronics',price:22.99,disc:30,emoji:'🔋'},
+  {id:15,name:'Universal Phone Car Mount',cat:'electronics',price:9.49,disc:0,emoji:'📱'}
+];
+function esc(s){ return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }
+var PRODUCTS, PENDING={a:null};   // pending photo dataURLs by form
+function loadP(){ try{ var p=JSON.parse(localStorage.getItem(PKEY)); return (p&&p.length)?p:SEED.slice(); }catch(e){ return SEED.slice(); } }
+function persist(){ try{ localStorage.setItem(PKEY,JSON.stringify(PRODUCTS)); }catch(e){ alert('Storage full — try a smaller photo.'); } }
+
+// ── auth ──
+function unlock(){ var v=document.getElementById('pin').value.trim();
+  if(v===PIN){ sessionStorage.setItem('mdd_admin','1'); showApp(); }
+  else{ document.getElementById('gerr').textContent='Incorrect PIN.'; document.getElementById('pin').value=''; } }
+function showApp(){ document.getElementById('gate').style.display='none'; document.getElementById('app').style.display='block';
+  PRODUCTS=loadP(); loadBanner(); render(); }
+if(sessionStorage.getItem('mdd_admin')==='1'){ document.addEventListener('DOMContentLoaded',showApp); }
+
+// ── photo: downscale to keep localStorage small ──
+function pickPhoto(input,form){
+  var f=input.files&&input.files[0]; if(!f) return;
+  var reader=new FileReader();
+  reader.onload=function(e){
+    var img=new Image();
+    img.onload=function(){
+      var max=640, w=img.width, h=img.height;
+      if(w>h && w>max){ h=Math.round(h*max/w); w=max; } else if(h>max){ w=Math.round(w*max/h); h=max; }
+      var c=document.createElement('canvas'); c.width=w; c.height=h;
+      c.getContext('2d').drawImage(img,0,0,w,h);
+      var data=c.toDataURL('image/jpeg',0.82);
+      PENDING[form]=data;
+      var prev=document.getElementById(form+'-prev'); if(prev){ prev.innerHTML='<img src="'+data+'">'; }
+    };
+    img.src=e.target.result;
+  };
+  reader.readAsDataURL(f);
+}
+
+// ── banner ──
+function loadBanner(){ var b; try{ b=JSON.parse(localStorage.getItem(BKEY))||{}; }catch(e){ b={}; }
+  document.getElementById('b-on').checked=!!b.on; document.getElementById('b-text').value=b.text||''; drawBannerPrev(); }
+function drawBannerPrev(){ document.getElementById('b-prev-t').textContent=document.getElementById('b-text').value||'Your banner preview'; }
+function saveBanner(){ var b={on:document.getElementById('b-on').checked,text:document.getElementById('b-text').value.trim()};
+  localStorage.setItem(BKEY,JSON.stringify(b)); flash('b-note','Banner saved — live on the store.'); }
+
+// ── products ──
+function addProduct(){
+  var name=document.getElementById('a-name').value.trim(), price=parseFloat(document.getElementById('a-price').value);
+  if(!name){ return flash('a-note','Enter a product name.',true); }
+  if(!(price>=0)){ return flash('a-note','Enter a valid price.',true); }
+  var cat=document.getElementById('a-cat').value, disc=Math.max(0,Math.min(90,parseInt(document.getElementById('a-disc').value)||0));
+  var id=Math.max(0,Math.max.apply(null,PRODUCTS.map(function(p){return p.id;}).concat([0])))+1;
+  var p={id:id,name:name,cat:cat,price:price,disc:disc,emoji:CAT_EMOJI[cat]};
+  if(PENDING.a) p.photo=PENDING.a;
+  PRODUCTS.unshift(p); persist(); render();
+  document.getElementById('a-name').value='';document.getElementById('a-price').value='';document.getElementById('a-disc').value='';
+  PENDING.a=null; document.getElementById('a-prev').innerHTML='📷';
+  flash('a-note','Added "'+name+'".');
+}
+function editField(id,field,val){ var p=PRODUCTS.filter(function(x){return x.id===id;})[0]; if(!p) return;
+  if(field==='price') p.price=Math.max(0,parseFloat(val)||0);
+  if(field==='disc') p.disc=Math.max(0,Math.min(90,parseInt(val)||0));
+  persist(); renderCount(); }
+function replacePhoto(input,id){ var f=input.files&&input.files[0]; if(!f) return;
+  var reader=new FileReader();
+  reader.onload=function(e){ var img=new Image(); img.onload=function(){
+    var max=640,w=img.width,h=img.height; if(w>h&&w>max){h=Math.round(h*max/w);w=max;}else if(h>max){w=Math.round(w*max/h);h=max;}
+    var c=document.createElement('canvas');c.width=w;c.height=h;c.getContext('2d').drawImage(img,0,0,w,h);
+    var p=PRODUCTS.filter(function(x){return x.id===id;})[0]; if(p){ p.photo=c.toDataURL('image/jpeg',0.82); persist(); render(); }
+  }; img.src=e.target.result; };
+  reader.readAsDataURL(f);
+}
+function delProduct(id){ var p=PRODUCTS.filter(function(x){return x.id===id;})[0];
+  if(!confirm('Remove "'+(p?p.name:'this product')+'"?')) return;
+  PRODUCTS=PRODUCTS.filter(function(x){return x.id!==id;}); persist(); render(); }
+function renderCount(){ document.getElementById('pcount').textContent='· '+PRODUCTS.length+' items'; }
+function render(){
+  renderCount();
+  document.getElementById('plist').innerHTML=PRODUCTS.map(function(p){
+    var th=p.photo?('<img src="'+p.photo+'">'):(p.emoji||CAT_EMOJI[p.cat]||'🛍️');
+    return '<div class="prow"><div class="thumb">'+th+'</div>'
+      +'<div class="info"><div class="n">'+esc(p.name)+'</div><div class="c">'+esc(CATS[p.cat]||p.cat)+'</div></div>'
+      +'<div class="edit"><div class="f"><span>PRICE $</span><input type="number" min="0" step="0.01" value="'+p.price+'" onchange="editField('+p.id+',\'price\',this.value)"></div>'
+      +'<div class="f"><span>DISC %</span><input type="number" min="0" max="90" step="1" value="'+p.disc+'" onchange="editField('+p.id+',\'disc\',this.value)"></div>'
+      +'<div class="repl"><label>🔄 Photo<input type="file" accept="image/*" onchange="replacePhoto(this,'+p.id+')"></label></div>'
+      +'<button class="btn red sm" onclick="delProduct('+p.id+')">Remove</button></div></div>';
+  }).join('')||'<div style="color:var(--muted);font-size:14px;padding:14px">No products. Add one above.</div>';
+}
+function flash(id,msg,err){ var n=document.getElementById(id); n.textContent=msg; n.className='note '+(err?'err':'ok'); setTimeout(function(){n.textContent='';},2600); }
+</script>
+</body>
+</html>
