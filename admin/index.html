@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Mulish:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 <style>
-  :root{--green:#127a3e;--green-d:#0d5c2e;--green-l:#e7f4ec;--yellow:#ffd21f;--yellow-d:#f2b705;--yellow-soft:#fff7d6;
+  :root{--green:#0f5132;--green-d:#0a3a22;--green-l:#e7f4ec;--yellow:#ffd21f;--yellow-d:#f2b705;--yellow-soft:#fff7d6;
     --ink:#15251b;--ink2:#4a5b50;--muted:#8a988e;--line:#e6ebe6;--bg:#f4f7f4;--card:#fff;--red:#c0392b;
     --serif:'Fraunces',Georgia,serif;--sans:'Mulish',system-ui,Arial,sans-serif}
   *{margin:0;padding:0;box-sizing:border-box}
@@ -218,7 +218,7 @@ function unlock(){ var v=document.getElementById('pin').value.trim();
   else{ document.getElementById('gerr').textContent='Incorrect PIN.'; document.getElementById('pin').value=''; } }
 function showApp(){ document.getElementById('gate').style.display='none'; document.getElementById('app').style.display='block';
   PRODUCTS=loadP(); loadBanner(); render();
-  var u=document.getElementById('fl-url'); if(u && !u.value){ u.value='megadollardiscount.com'; }
+  var u=document.getElementById('fl-url'); if(u && !u.value){ u.value='megadollardiscounts.com'; }
   renderFlyer(); }
 if(sessionStorage.getItem('mdd_admin')==='1'){ document.addEventListener('DOMContentLoaded',showApp); }
 
@@ -309,18 +309,18 @@ function renderFlyer(){
   var head=(document.getElementById('fl-head').value||'MEGA SALE').toUpperCase();
   var sub=document.getElementById('fl-sub').value||'';
   var n=parseInt(document.getElementById('fl-count').value)||4;
-  var url=(document.getElementById('fl-url').value||'megadollardiscount.com').replace(/^https?:\/\//,'').replace(/\/$/,'');
+  var url=(document.getElementById('fl-url').value||'megadollardiscounts.com').replace(/^https?:\/\//,'').replace(/\/$/,'');
   var deals=featuredDeals(n);
   var maxDisc=Math.max.apply(null,PRODUCTS.map(function(p){return p.disc||0;}).concat([0]));
 
   // background
-  var g=x.createLinearGradient(0,0,0,H); g.addColorStop(0,'#127a3e'); g.addColorStop(1,'#0d5c2e'); x.fillStyle=g; x.fillRect(0,0,W,H);
+  var g=x.createLinearGradient(0,0,0,H); g.addColorStop(0,'#0f5132'); g.addColorStop(1,'#0a3a22'); x.fillStyle=g; x.fillRect(0,0,W,H);
   x.fillStyle='rgba(255,210,31,.16)'; x.beginPath(); x.arc(W-40,80,260,0,7); x.fill();
   x.fillStyle='rgba(255,210,31,.10)'; x.beginPath(); x.arc(80,H-80,220,0,7); x.fill();
 
   // header logo
   x.fillStyle='#ffd21f'; rr(x,60,58,74,74,18); x.fill();
-  x.fillStyle='#0d5c2e'; x.font='800 48px Mulish,Arial'; x.textAlign='center'; x.textBaseline='middle'; x.fillText('$',97,96);
+  x.fillStyle='#0a3a22'; x.font='800 48px Mulish,Arial'; x.textAlign='center'; x.textBaseline='middle'; x.fillText('$',97,96);
   x.textAlign='left'; x.fillStyle='#fff'; x.font='700 44px Fraunces,Georgia,serif'; x.fillText('MegaDollar', 150, 82);
   x.fillStyle='#ffd21f'; x.fillText('Discount', 150+x.measureText('MegaDollar').width+12, 82);
   x.fillStyle='rgba(255,255,255,.8)'; x.font='700 20px Mulish,Arial'; x.fillText('EVERYTHING FOR LESS', 152, 116);
@@ -333,7 +333,7 @@ function renderFlyer(){
   // "up to X% off" badge
   if(maxDisc>0){ x.save(); x.translate(W-170,470); x.fillStyle='#ffd21f'; x.beginPath();
     for(var i=0;i<24;i++){ var a=i/24*Math.PI*2; var r=(i%2? 96:120); x.lineTo(Math.cos(a)*r,Math.sin(a)*r); } x.closePath(); x.fill();
-    x.fillStyle='#0d5c2e'; x.font='800 30px Mulish,Arial'; x.textBaseline='middle'; x.fillText('UP TO',0,-24); x.font='800 66px Mulish,Arial'; x.fillText(maxDisc+'%',0,22); x.font='800 30px Mulish,Arial'; x.fillText('OFF',0,64); x.restore(); }
+    x.fillStyle='#0a3a22'; x.font='800 30px Mulish,Arial'; x.textBaseline='middle'; x.fillText('UP TO',0,-24); x.font='800 66px Mulish,Arial'; x.fillText(maxDisc+'%',0,22); x.font='800 30px Mulish,Arial'; x.fillText('OFF',0,64); x.restore(); }
 
   // deal cards
   var top=560, gap=18, ch=(H-top-150-gap*(deals.length-1))/deals.length; if(ch>170) ch=170;
@@ -348,20 +348,20 @@ function renderFlyer(){
     x.textAlign='left'; x.textBaseline='alphabetic'; x.fillStyle='#15251b';
     var name=p.name.length>34?p.name.slice(0,33)+'…':p.name; var ns=fitText(x,name,560,30); x.font='800 '+ns+'px Mulish,Arial'; x.fillText(name,200,y+ch/2-6);
     // price
-    x.fillStyle='#127a3e'; x.font='800 46px Mulish,Arial'; x.fillText('$'+fp(p).toFixed(2),200,y+ch/2+44);
+    x.fillStyle='#0f5132'; x.font='800 46px Mulish,Arial'; x.fillText('$'+fp(p).toFixed(2),200,y+ch/2+44);
     if(p.disc>0){ var pw=x.measureText('$'+fp(p).toFixed(2)).width; x.fillStyle='#8a988e'; x.font='600 28px Mulish,Arial'; var was='$'+Number(p.price).toFixed(2); x.fillText(was,200+pw+16,y+ch/2+44);
       var ww=x.measureText(was).width; x.strokeStyle='#8a988e'; x.lineWidth=3; x.beginPath(); x.moveTo(200+pw+16,y+ch/2+34); x.lineTo(200+pw+16+ww,y+ch/2+34); x.stroke(); }
     // disc badge
-    if(p.disc>0){ x.fillStyle='#ffd21f'; rr(x,W-60-118,y+18,98,46,23); x.fill(); x.fillStyle='#0d5c2e'; x.textAlign='center'; x.font='800 30px Mulish,Arial'; x.textBaseline='middle'; x.fillText('-'+p.disc+'%',W-60-118+49,y+18+23); x.textAlign='left'; x.textBaseline='alphabetic'; }
+    if(p.disc>0){ x.fillStyle='#ffd21f'; rr(x,W-60-118,y+18,98,46,23); x.fill(); x.fillStyle='#0a3a22'; x.textAlign='center'; x.font='800 30px Mulish,Arial'; x.textBaseline='middle'; x.fillText('-'+p.disc+'%',W-60-118+49,y+18+23); x.textAlign='left'; x.textBaseline='alphabetic'; }
   });
 
   // footer bar
   x.fillStyle='#ffd21f'; rr(x,60,H-118,W-120,72,20); x.fill();
-  x.fillStyle='#0d5c2e'; x.textAlign='center'; x.textBaseline='middle'; x.font='800 34px Mulish,Arial'; x.fillText('🛒  Shop now  ·  '+url, W/2, H-118+36);
+  x.fillStyle='#0a3a22'; x.textAlign='center'; x.textBaseline='middle'; x.font='800 34px Mulish,Arial'; x.fillText('🛒  Shop now  ·  '+url, W/2, H-118+36);
 }
 function flyerCaption(){ var head=document.getElementById('fl-head').value||'MegaDollar Discount'; var maxDisc=Math.max.apply(null,PRODUCTS.map(function(p){return p.disc||0;}).concat([0]));
   return '🛒 MegaDollar Discount — '+head+'! '+(maxDisc>0?('Up to '+maxDisc+'% OFF. '):'')+'Everything for less 🎉'; }
-function flyerUrl(){ var u=document.getElementById('fl-url').value||'https://megadollardiscount.com'; return /^https?:\/\//.test(u)?u:('https://'+u); }
+function flyerUrl(){ var u=document.getElementById('fl-url').value||'https://megadollardiscounts.com'; return /^https?:\/\//.test(u)?u:('https://'+u); }
 function flyerBlob(){ return new Promise(function(res){ document.getElementById('flyer').toBlob(function(b){res(b);},'image/png'); }); }
 function downloadFlyer(){ var a=document.createElement('a'); a.download='megadollar-flyer.png'; a.href=document.getElementById('flyer').toDataURL('image/png'); a.click(); flash('fl-note','Image downloaded — post it anywhere.'); }
 async function shareFlyer(){
