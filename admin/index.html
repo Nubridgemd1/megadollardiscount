@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MegaDollar Discount — Admin</title>
+<title>MegaDollar Discounts — Admin</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Mulish:wght@300;400;600;700;800&display=swap" rel="stylesheet">
@@ -322,7 +322,7 @@ function renderFlyer(){
   x.fillStyle='#ffd21f'; rr(x,60,58,74,74,18); x.fill();
   x.fillStyle='#0a3a22'; x.font='800 48px Mulish,Arial'; x.textAlign='center'; x.textBaseline='middle'; x.fillText('$',97,96);
   x.textAlign='left'; x.fillStyle='#fff'; x.font='700 44px Fraunces,Georgia,serif'; x.fillText('MegaDollar', 150, 82);
-  x.fillStyle='#ffd21f'; x.fillText('Discount', 150+x.measureText('MegaDollar').width+12, 82);
+  x.fillStyle='#ffd21f'; x.fillText('Discounts', 150+x.measureText('MegaDollar').width+12, 82);
   x.fillStyle='rgba(255,255,255,.8)'; x.font='700 20px Mulish,Arial'; x.fillText('EVERYTHING FOR LESS', 152, 116);
 
   // headline
@@ -359,15 +359,15 @@ function renderFlyer(){
   x.fillStyle='#ffd21f'; rr(x,60,H-118,W-120,72,20); x.fill();
   x.fillStyle='#0a3a22'; x.textAlign='center'; x.textBaseline='middle'; x.font='800 34px Mulish,Arial'; x.fillText('🛒  Shop now  ·  '+url, W/2, H-118+36);
 }
-function flyerCaption(){ var head=document.getElementById('fl-head').value||'MegaDollar Discount'; var maxDisc=Math.max.apply(null,PRODUCTS.map(function(p){return p.disc||0;}).concat([0]));
-  return '🛒 MegaDollar Discount — '+head+'! '+(maxDisc>0?('Up to '+maxDisc+'% OFF. '):'')+'Everything for less 🎉'; }
+function flyerCaption(){ var head=document.getElementById('fl-head').value||'MegaDollar Discounts'; var maxDisc=Math.max.apply(null,PRODUCTS.map(function(p){return p.disc||0;}).concat([0]));
+  return '🛒 MegaDollar Discounts — '+head+'! '+(maxDisc>0?('Up to '+maxDisc+'% OFF. '):'')+'Everything for less 🎉'; }
 function flyerUrl(){ var u=document.getElementById('fl-url').value||'https://megadollardiscounts.com'; return /^https?:\/\//.test(u)?u:('https://'+u); }
 function flyerBlob(){ return new Promise(function(res){ document.getElementById('flyer').toBlob(function(b){res(b);},'image/png'); }); }
 function downloadFlyer(){ var a=document.createElement('a'); a.download='megadollar-flyer.png'; a.href=document.getElementById('flyer').toDataURL('image/png'); a.click(); flash('fl-note','Image downloaded — post it anywhere.'); }
 async function shareFlyer(){
   try{ var blob=await flyerBlob(); var file=new File([blob],'megadollar-flyer.png',{type:'image/png'});
-    if(navigator.canShare && navigator.canShare({files:[file]})){ await navigator.share({files:[file],text:flyerCaption()+' '+flyerUrl(),title:'MegaDollar Discount'}); return; }
-    if(navigator.share){ await navigator.share({text:flyerCaption(),url:flyerUrl(),title:'MegaDollar Discount'}); return; }
+    if(navigator.canShare && navigator.canShare({files:[file]})){ await navigator.share({files:[file],text:flyerCaption()+' '+flyerUrl(),title:'MegaDollar Discounts'}); return; }
+    if(navigator.share){ await navigator.share({text:flyerCaption(),url:flyerUrl(),title:'MegaDollar Discounts'}); return; }
     downloadFlyer(); flash('fl-note','Sharing not supported here — image downloaded so you can post it.');
   }catch(e){ /* user cancelled */ }
 }
